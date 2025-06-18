@@ -21,7 +21,7 @@ variable "subnet_ids" {
 variable "node_groups" {
     description = "Node group configuration"
     type = map(object({
-        instance_types = list(String)
+        instance_types = list(string)
         capacity_type = string
         scaling_config = object({
             desired_size = number
