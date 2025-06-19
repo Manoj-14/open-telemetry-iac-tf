@@ -9,6 +9,6 @@ output "cluster_name" {
 }
 
 output "vpc_id" {
-  description = "Vpc id"
+  description = "VPC ID"
   value       = module.vpc.vpc_id
 }
