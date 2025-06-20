@@ -13,6 +13,7 @@ terraform {
     # dynamodb_table = "otel-tf-lockin"
     use_lockfile = "true"
     encrypt      = true
+  }
 }
 
 provider "aws" {
