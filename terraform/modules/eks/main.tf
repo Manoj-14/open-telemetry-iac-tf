@@ -34,6 +34,10 @@ resource "aws_eks_cluster" "cluster" {
     depends_on = [
         aws_iam_role_policy_attachment.cluster_policy
     ]
+
+    access_config {
+    authentication_mode = "API"
+  }
 }
 
 resource "aws_eks_access_entry" "devops_entry" {

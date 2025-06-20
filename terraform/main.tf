@@ -10,7 +10,8 @@ terraform {
     bucket         = "otel-tf-state"
     key            = "terraform.tf.state"
     region         = "us-east-1"
-    dynamodb_table = "otel-tf-lockin"
+    # dynamodb_table = "otel-tf-lockin"
+    use_lockfile = "true"
     encrypt        = true
   }
 }
