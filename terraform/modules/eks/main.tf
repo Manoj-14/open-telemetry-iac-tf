@@ -1,3 +1,7 @@
+data "aws_iam_user" "devops" {
+  user_name = "otel"
+}
+
 resource "aws_iam_role" "cluster_role" {
     name = "${var.cluster_name}-cluster-role"
 
@@ -30,6 +34,24 @@ resource "aws_eks_cluster" "cluster" {
     depends_on = [
         aws_iam_role_policy_attachment.cluster_policy
     ]
+}
+
+resource "aws_eks_access_entry" "devops_entry" {
+  cluster_name  = aws_eks_cluster.cluster.name
+  principal_arn = data.aws_iam_user.devops.arn
+  #kubernetes_groups = ["system:masters"]
+  type = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "eks-cluster-admin-policy-1" {
+  cluster_name  = aws_eks_cluster.cluster.name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+  principal_arn = data.aws_iam_user.devops.arn
+
+  access_scope {
+    type = "cluster"
+  }
+  depends_on = [aws_eks_access_entry.devops_entry]
 }
 
 resource "aws_iam_role" "node_role" {
