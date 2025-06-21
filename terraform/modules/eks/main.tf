@@ -18,7 +18,11 @@ resource "aws_iam_role" "cluster_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_policy" {
-    policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+    for_each = toset([
+        "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+        "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+    ])
+    policy_arn = each.value
     role = aws_iam_role.cluster_role.name
 }
 
@@ -47,7 +51,7 @@ resource "aws_eks_access_entry" "devops_entry" {
   type = "STANDARD"
 }
 
-resource "aws_eks_access_policy_association" "eks-cluster-admin-policy-1" {
+resource "aws_eks_access_policy_association" "eks-cluster-admin-policy" {
   cluster_name  = aws_eks_cluster.cluster.name
   policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
   principal_arn = data.aws_iam_user.devops.arn
