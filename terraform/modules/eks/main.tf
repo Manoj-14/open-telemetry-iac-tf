@@ -47,7 +47,7 @@ resource "aws_eks_cluster" "cluster" {
 resource "aws_eks_access_entry" "devops_entry" {
   cluster_name  = aws_eks_cluster.cluster.name
   principal_arn = data.aws_iam_user.devops.arn
-  #kubernetes_groups = ["system:masters"]
+  kubernetes_groups = ["eks-admins"]
   type = "STANDARD"
 }
 
