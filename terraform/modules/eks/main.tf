@@ -53,7 +53,7 @@ resource "aws_eks_access_entry" "devops_entry" {
 
 resource "aws_eks_access_policy_association" "eks-cluster-admin-policy" {
   cluster_name  = aws_eks_cluster.cluster.name
-  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
   principal_arn = data.aws_iam_user.devops.arn
 
   access_scope {
